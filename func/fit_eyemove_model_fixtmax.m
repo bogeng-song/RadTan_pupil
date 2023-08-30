@@ -1,4 +1,4 @@
-function sj = fit_eyemove_model(eyemovement,event,sample,win,event_label,rt)
+function sj = fit_eyemove_model_fixtmax(eyemovement,event,sample,win,event_label,rt)
 
 options = pret_preprocess();
 options.normflag = false;
@@ -44,20 +44,20 @@ model.boxlabels = {'task'}; %optional
 % off.
 model.yintflag = false;
 model.slopeflag = false;
-
+model.tmaxflag = false;
 % Now let's define the bounds for the parameters we decided to fit. We do
 % not have to give values for the y-intercept and slope because we are not
 % fitting them.
 model.ampbounds = repmat([0;100],1,length(model.eventtimes));
 model.latbounds = repmat([-500;500],1,length(model.eventtimes));
 model.boxampbounds = [0;100];
-%model.tmaxbounds = [500;1500];
+%model.tmaxbounds = [800;800];
 
 % We need to fill in the values for the y-intercept and slope since we will
 % not be fitting them as parameters.
 model.yintval = 0;
 model.slopeval = 0;
-model.tmax = 800;
+model.tmaxval = 800;
 
 %% estimate model parameters via pret_estimate_sj
 % Now let's perform the parameter estimation procedure on our subject data.
@@ -70,7 +70,7 @@ options.pret_estimate.optimnum = 3;
 % use these lines (you'll want to turn off the optimization plots for this):
 %options.trialmode = 'single';
 
-options.pret_estimate.pret_optim.optimplotflag = true;
+options.pret_estimate.pret_optim.optimplotflag = false;
 
 wnum = 1;
 
