@@ -1,4 +1,4 @@
-%% mian script for run
+%% main script run
 subject = {'S01','S02','S03','S04','S05','S06','S07','S08'}; 
 condition = {'Full_distance_non_radialtangential','Full_distance_radialtangential'};
 con = {'non_r','r'};
@@ -85,7 +85,7 @@ for ii = 3:3
             % max_num_missing_value = 0.4; % missing rate for whole data length
 
         
-            main_folder = fullfile('/scratch/bs4283/rad_tan/Data_DI_wEYE/Data_DI_wEYE', subject{ii}, ...
+            main_folder = fullfile('E:\6.23\RadialBias_pilot1-main\Data_DI_wEYE\Data_DI_wEYE', subject{ii}, ...
                 'RawData', condition{jj}, 'Block2','eyedata');
 
             cd (main_folder)
@@ -157,6 +157,11 @@ for ii = 3:3
                 if (length(nor_eyemove_trend) - length(window_length)) > 0
                     nor_eyemove_trend = nor_eyemove_trend(1:length(window_length));
                 end
+
+%                 figure
+%                 plot
+
+                nor_eyemove_trend=filtfilt(fir1(35,0.05),1,nor_eyemove_trend);
                     
     %                     if samplingRateData == 2000 
     %                         nor_eyemove_trend = nor_eyemove_trend(1 : (length(nor_eyemove_trend)-1));

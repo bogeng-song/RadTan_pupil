@@ -1,7 +1,17 @@
 function yq = add_miss_value(segment_data)
 
+
+if segment_data(1,2) == 0 
+    segment_data(1,2) = mean(segment_data(segment_data(:,2)~=0,2));
+end
+
+if segment_data(size(segment_data,1),2) == 0 
+    segment_data(size(segment_data,1),2) = mean(segment_data(segment_data(:,2)~=0,2));
+end
+
 yq = segment_data;
 x = 1 : size(segment_data,1);
+
 
 
 

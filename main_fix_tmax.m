@@ -13,15 +13,12 @@ max_num_missing_value = 0.4; % missing rate for whole data length
 
 %model parameters (total 8 parameters)
 
-for ii = 3:3
+for ii = 4:4
 
-    for jj = 1 : 1
+    for jj = 1 : 2
         
           
-        for kk = 1 : 1
-%             if jj == 1 && kk == 8 
-%                 continue
-%             end
+        for kk = 1 : 8
 
 
             amp_value_05 = [];
@@ -86,16 +83,16 @@ for ii = 3:3
 
         
             main_folder = fullfile('/scratch/bs4283/rad_tan/Data_DI_wEYE/Data_DI_wEYE', subject{ii}, ...
-                'RawData', condition{jj}, 'Block2','eyedata');
+                'RawData', condition{jj}, 'Block1','eyedata');
 
             cd (main_folder)
 
-            edf_name = dir(sprintf('*%s*.edf', direction{8})).name;
+            edf_name = dir(sprintf('*%s*.edf', direction{kk})).name;
             edf_path = fullfile(main_folder,edf_name);
             msg_filepath=replace(edf_path,'edf','msg');
             samplingRateData=findSamplingRate(msg_filepath);
 
-            data_point_num = 76;
+            data_point_num = 150;
 
             if samplingRateData == 500 
                 data_point_num = data_point_num/2;
@@ -116,7 +113,7 @@ for ii = 3:3
             load (tab_filelist(kk).name)
             %extract data segment
             trial_num = size(tab,1);
-            for tt = 1: 419
+            for tt = 1: trial_num-1
                 base_line_seg = dat((tab(tt,2)+base_line(1) < dat(:,1) & tab(tt,2)+base_line(2) > dat(:,1)),4);
                 if isempty(base_line_seg)
                     continue
@@ -161,7 +158,7 @@ for ii = 3:3
     %                     if samplingRateData == 2000 
     %                         nor_eyemove_trend = nor_eyemove_trend(1 : (length(nor_eyemove_trend)-1));
     %                     end
-                sj = fit_eyemove_model(nor_eyemove_trend',event,samplingRateData,window,event_label,rt);
+                sj = fit_eyemove_model_fixtmax(nor_eyemove_trend',event,samplingRateData,window,event_label,rt);
                 
                 if tab(tt,11) ==0.5
                     amp_value_05 = [amp_value_05;sj.estim.one_trial.ampvals];
@@ -231,21 +228,21 @@ for ii = 3:3
             end
             
             if ii == 1 
-                figpath='/scratch/bs4283/rad_tan/Rad_Tan_script/sub01';
+                figpath='/scratch/bs4283/rad_tan/multi_methd_result/fix_tmax_original/sub01';
             elseif ii == 2
-                figpath='/scratch/bs4283/rad_tan/Rad_Tan_script/sub02';
+                figpath='/scratch/bs4283/rad_tan/multi_methd_result/fix_tmax_original/sub02';
             elseif ii == 3
-                figpath='/scratch/bs4283/rad_tan/Rad_Tan_script/sub03';
+                figpath='/scratch/bs4283/rad_tan/multi_methd_result/fix_tmax_original/sub03';
             elseif ii == 4
-                figpath='/scratch/bs4283/rad_tan/Rad_Tan_script/sub04';
+                figpath='/scratch/bs4283/rad_tan/multi_methd_result/fix_tmax_original/sub04';
             elseif ii == 5
-                figpath='/scratch/bs4283/rad_tan/Rad_Tan_script/sub05';
+                figpath='/scratch/bs4283/rad_tan/multi_methd_result/fix_tmax_original/sub05';
             elseif ii == 6
-                figpath='/scratch/bs4283/rad_tan/Rad_Tan_script/sub06';
+                figpath='/scratch/bs4283/rad_tan/multi_methd_result/fix_tmax_original/sub06';
             elseif ii == 7
-                figpath='/scratch/bs4283/rad_tan/Rad_Tan_script/sub07';
+                figpath='/scratch/bs4283/rad_tan/multi_methd_result/fix_tmax_original/sub07';
             elseif ii == 8
-                figpath='/scratch/bs4283/rad_tan/Rad_Tan_script/sub08';
+                figpath='/scratch/bs4283/rad_tan/multi_methd_result/fix_tmax_original/sub08';
             end
 
 
@@ -255,11 +252,11 @@ for ii = 3:3
             tt_1_value = [amp_value_1,lat_value_1,box_amp_value_1,t_max_value_1,bic_1,r2_1,cost_1,window_1,eventtimes_1,boxtimes_1];
             tt_05_value = [amp_value_05,lat_value_05,box_amp_value_05,t_max_value_05,bic_05,r2_05,cost_05,window_05,eventtimes_05,boxtimes_05];
 
-            name_05 = [figpath,'/',con{jj},'-',direction{8},'_value_05.mat'];
-            name_8 = [figpath,'/',con{jj},'-',direction{8},'_value_8.mat'];
-            name_4 = [figpath,'/',con{jj},'-',direction{8},'_value_4.mat'];
-            name_2 = [figpath,'/',con{jj},'-',direction{8},'_value_2.mat'];
-            name_1 = [figpath,'/',con{jj},'-',direction{8},'_value_1.mat'];
+            name_05 = [figpath,'/',con{jj},'-',direction{kk},'_value_05.mat'];
+            name_8 = [figpath,'/',con{jj},'-',direction{kk},'_value_8.mat'];
+            name_4 = [figpath,'/',con{jj},'-',direction{kk},'_value_4.mat'];
+            name_2 = [figpath,'/',con{jj},'-',direction{kk},'_value_2.mat'];
+            name_1 = [figpath,'/',con{jj},'-',direction{kk},'_value_1.mat'];
 
             save(name_05,'tt_05_value')
             save(name_1,'tt_1_value')
