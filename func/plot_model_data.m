@@ -1,5 +1,5 @@
 %% plot the predict data
-function Ycal_total = plot_model_data(para,samplerate)
+function [Ycal_total,X1,X2] = plot_model_data(para,samplerate)
 y_length = 5000 * samplerate/1000;
 Ycal_total = nan(size(para,1),y_length);
 for ro = 1 : size(para,1)
