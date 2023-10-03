@@ -1,7 +1,8 @@
 %% plot the predict data
-function Ycal_total= plot_model_data(para,samplerate)
-y_length = 5000 * samplerate/1000;
-Ycal_total = nan(size(para,1),y_length);
+function [Ycal_total,x1_sum,x2_sum] = plot_model_data_ele(para,samplerate)
+Ycal_total = struct();
+x1_sum = struct();
+x2_sum = struct();
 for ro = 1 : size(para,1)
     pp = para(ro,:);
     window =  pp([12,13]);
@@ -37,10 +38,13 @@ for ro = 1 : size(para,1)
         X2(bx,:) = temp(1:length(time));
         
     end
-    
+    t_name = ['trial',num2str(ro)];
+    x1_sum.(t_name) = X1;
+    x2_sum.(t_name) = X2;
+
     X = [X1 ; X2];
     Ycalc = sum(X,1); 
-    Ycal_total(ro,1 : size(Ycalc,2)) = Ycalc;
+    Ycal_total.(t_name) = Ycalc;
 end
 
 
