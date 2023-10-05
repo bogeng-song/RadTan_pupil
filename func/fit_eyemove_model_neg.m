@@ -48,7 +48,7 @@ model.slopeflag = false;
 % Now let's define the bounds for the parameters we decided to fit. We do
 % not have to give values for the y-intercept and slope because we are not
 % fitting them.
-model.ampbounds = [-100,0,0;100,100,100];
+model.ampbounds = repmat([-100;100],1,length(model.eventtimes));
 model.latbounds = repmat([-500;500],1,length(model.eventtimes));
 model.boxampbounds = [0;100];
 model.tmaxbounds = [500;1500];
